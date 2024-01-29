@@ -1,0 +1,37 @@
+{% extends 'layout/main.html' %} {% block content %}
+<div>
+  <a class="btn dustyGreen text-white mt-2" href="{% url 'view_kriteria' %}">
+    <i class="bx bx-arrow-back"></i>
+  </a>
+  <h2 class="text-center mb-4">Create Criteria Form</h2>
+</div>
+<form method="post">
+  {% csrf_token %}
+
+  <div class="form row justify-content-between text-left">
+    <div class="form-group col-12 flex-column d-flex">
+      <label for="nama_kriteria">Name of Criteria:</label>
+      <input class="form" type="text" name="nama_kriteria" required />
+    </div>
+  </div>
+
+  <div class="form row justify-content-between text-left">
+    <div class="form-group col-12 flex-column d-flex">
+      <label for="jenis_kriteria">Type of Criteria:</label>
+      <select class="form-select" name="jenis_kriteria" required>
+        <option value="Benefit">Benefit</option>
+        <option value="Cost">Cost</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="form row justify-content-end mt-2">
+    <div class="form-group col-12">
+      <button type="submit" class="form btn-block dustyGreen text-white mt-2">
+        Create New Criteria
+      </button>
+    </div>
+  </div>
+</form>
+
+{% endblock %}

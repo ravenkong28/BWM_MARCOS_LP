@@ -1,0 +1,39 @@
+{% extends 'layout/main.html' %}
+
+{% block content %}
+<style>
+     .flower-name {
+          font-size: 25px;
+     }
+</style>
+
+{% if notfound %}
+<h4>No Feasible Solution, Please Change The Number</h4>
+{% elif result %}
+<h4 class="text-center">Result:</h4>
+<h5>Maximum income = Rp. {{ result }},-</h5>
+<div class="card-body ">
+     <div class="table-responsive">
+          <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+               <thead class="text-white">
+                    <tr align="center">
+                         <th width="5%">No</th>
+                         <th>Name Type of Flower</th>
+                         <th>Value</th>
+                    </tr>
+               </thead>
+               <tbody>
+                    {% for name, value in solution_variable %}
+                    <tr align="m-1">
+                         <td class="text-center flower-name">{{ forloop.counter }}.</td>
+                         <td class="flower-name">{{ name }}</td>
+                         <td class="text-center flower-name">{{ value }}</td>
+                    </tr>
+                    {% endfor %}
+               </tbody>
+          </table>
+     </div>
+</div>
+{% endif %}
+
+{% endblock %}

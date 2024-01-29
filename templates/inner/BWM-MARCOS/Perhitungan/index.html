@@ -1,0 +1,261 @@
+<!-- perhitungan.html -->
+{% extends 'layout/main.html' %}
+{% block blog_title_block %}Calculation Page{%endblock %}
+{% block content %}
+<h2 class="text-center">Calculation</h2>
+<form method="post" action="{% url 'input_kriteria' %}" style="display: inline">
+     {% csrf_token %}
+
+     {% for i in selected_kriteria_data %}
+     <input type="text" name="selected_kriteria_data" value="{{ i.id }}" style="display: none;">
+     {% endfor %}
+
+     {% for i in selected_supplier_data %}
+     <input type="text" name="selected_supplier_data" value="{{ i.id }}" style="display: none;">
+     {% endfor %}
+
+     <div class="form row justify-content-between text-left">
+          <div class="form-group col-12 flex-column d-flex">
+               <label for="best_kriteria_select">Choose Your Best Kriteria:</label>
+               <select id="best_kriteria_select" name="best_kriteria" class="form-select text-left" required>
+                    {% for kriteria in selected_kriteria_data %}
+                    {% if kriteria.nama_kriteria == best%}
+                    <option value="{{ kriteria.nama_kriteria }}" selected>
+                         {{ kriteria.nama_kriteria }}
+                    </option>
+                    {% else %}
+                    <option value="{{ kriteria.nama_kriteria }}">
+                         {{ kriteria.nama_kriteria }}
+                    </option>
+                    {% endif %}
+                    {% endfor %}
+               </select>
+          </div>
+     </div>
+
+     <div class="form row justify-content-between text-left mt-4">
+          <div class="form-group col-12 flex-column d-flex">
+               <label for="worst_kriteria_select">Choose Your Worst Kriteria:</label>
+               <select id="worst_kriteria_select" name="worst_kriteria" class="form-select text-left" required>
+                    {% for kriteria in selected_kriteria_data %} {% if kriteria.nama_kriteria == worst %}
+                    <option value="{{ kriteria.nama_kriteria }}" selected>
+                         {{ kriteria.nama_kriteria }}
+                    </option>
+                    {% else %}
+                    <option value="{{ kriteria.nama_kriteria }}">
+                         {{ kriteria.nama_kriteria }}
+                    </option>
+                    {% endif %} {% endfor %}
+               </select>
+          </div>
+     </div>
+     <div class="form row justify-content-end mt-3">
+          <div class="form-group col-12">
+               <button type="submit" class="form btn-block dustyGreen text-white mt-2">
+                    Generate Table
+               </button>
+          </div>
+     </div>
+</form>
+
+
+{% if best and worst %}
+<div class="card-body mt-4">
+     <div>
+          <small>
+               <h5>Score Definition:</h5>
+               <ul>
+                    <li>
+                         <p>1 : Equally Important</p>
+                    </li>
+                    <li>
+                         <p>2 : Somewhat between <strong>Equal</strong> and <strong>Moderate</strong></p>
+                    </li>
+                    <li>
+                         <p>3 : Simply more important than</p>
+                    </li>
+                    <li>
+                         <p>4 : Somewhat between <strong>Medium</strong> and <strong>Strong</strong></p>
+                    </li>
+                    <li>
+                         <p>5 : Much more important than</p>
+                    </li>
+                    <li>
+                         <p>6 : Somewhat between <strong>Strong</strong> and <strong>Very Strong</strong></p>
+                    </li>
+                    <li>
+                         <p>7 : Very very important than</p>
+                    </li>
+                    <li>
+                         <p>8 : Somewhat between <strong>Very Strong</strong> and <strong>Absolute</strong></p>
+                    </li>
+                    <li>
+                         <p>9 : Of Course more important than</p>
+                    </li>
+               </ul>
+          </small>
+     </div>
+     <div class="table-responsive">
+          <form method="post" action="{% url 'result' %}" style="display: inline">
+               {% csrf_token %}
+               {% for i in selected_kriteria_data %}
+               <input type="text" name="selected_kriteria_data" value="{{ i.id }}" style="display: none;">
+               {% endfor %}
+
+               {% for i in selected_supplier_data %}
+               <input type="text" name="selected_supplier_data" value="{{ i.id }}" style="display: none;">
+               {% endfor %}
+               <div>
+                    <div class="text-center">
+                         <h4>Best to Other Criteria Table</h4>
+                    </div>
+                    <div>
+                         <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                              <thead class="text-white">
+                                   <tr align="center">
+                                        <th></th>
+                                        {% for kriteria in selected_kriteria_data %}
+                                        <th>{{ kriteria.nama_kriteria }}</th>
+                                        {% endfor %}
+                                   </tr>
+                              </thead>
+                              <tbody>
+                                   <tr>
+                                        <td>{{ best }}</td>
+                                        {% for kriteria in selected_kriteria_data %}
+                                        <td>
+                                             <select name="bobot_kriteria_best" class="form-select text-center">
+                                                  {% if kriteria.nama_kriteria == best %}
+                                                  <option value="1" selected>1</option>
+                                                  {% else %}
+                                                  <option value="1">1</option>
+                                                  <option value="2">2</option>
+                                                  <option value="3">3</option>
+                                                  <option value="4">4</option>
+                                                  <option value="5">5</option>
+                                                  <option value="6">6</option>
+                                                  <option value="7">7</option>
+                                                  <option value="8">8</option>
+                                                  <option value="9">9</option>
+                                                  {% endif %}
+                                             </select>
+                                        </td>
+                                        {% endfor %}
+                                   </tr>
+                              </tbody>
+                         </table>
+                    </div>
+               </div>
+
+               <div>
+                    <div class="text-center ">
+                         <h4>Other to Worst Criteria</h4>
+                    </div>
+                    <div>
+                         <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                              <thead class="text-white">
+                                   <tr align="center">
+                                        <th></th>
+                                        <th>{{ worst }}</th>
+                                   </tr>
+                              </thead>
+                              <tbody>
+                                   {% for kriteria in selected_kriteria_data %}
+                                   <tr>
+                                        <td class="kriteria-name">{{ kriteria.nama_kriteria }}</td>
+                                        <td>
+                                             <select name="bobot_kriteria_worst" class="form-select text-center">
+                                                  {% if kriteria.nama_kriteria == worst %}
+                                                  <option value="1" selected>1</option>
+                                                  {% else %}
+                                                  <option value="1">1</option>
+                                                  <option value="2">2</option>
+                                                  <option value="3">3</option>
+                                                  <option value="4">4</option>
+                                                  <option value="5">5</option>
+                                                  <option value="6">6</option>
+                                                  <option value="7">7</option>
+                                                  <option value="8">8</option>
+                                                  <option value="9">9</option>
+                                                  {% endif %}
+                                             </select>
+                                        </td>
+                                   </tr>
+                                   {% endfor %}
+                              </tbody>
+                         </table>
+                    </div>
+               </div>
+
+
+               <div class="mt-4">
+                    <small>
+                         <h5>Score Definition:</h5>
+                         <ul>
+                              <li>
+                                   <p>1 : This alternative has a <strong>Very Poor</strong> criteria score</p>
+                              </li>
+                              <li>
+                                   <p>2 : This alternative has a <strong>Poor</strong> criteria score</p>
+                              </li>
+                              <li>
+                                   <p>3 : This alternative has a <strong>Fair</strong> criteria score</p>
+                              </li>
+                              <li>
+                                   <p>4 : This alternative has a <strong>Good</strong> criteria score</p>
+                              </li>
+                              <li>
+                                   <p>5 : This alternative has an <strong>Excellent</strong> criteria score</p>
+                              </li>
+                         </ul>
+                    </small>
+               </div>
+               <div class="text-center">
+                    <h4>Masukkan nilai alternatif untuk masing-masing kriteria</h4>
+                    <div class="table-responsive">
+                         <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                              <thead class="text-white">
+                                   <tr align="center">
+                                        <th></th>
+                                        {% for kriteria in selected_kriteria_data %}
+                                        <th>{{ kriteria.nama_kriteria }}</th>
+                                        {% endfor %}
+                                   </tr>
+                                   <tr align="center">
+                                        <th>Type</th>
+                                        {% for kriteria in selected_kriteria_data %}
+                                        <th>({{ kriteria.jenis_kriteria }})</th>
+                                        {% endfor %}
+                                   </tr>
+                              </thead>
+                              {% for supplier in selected_supplier_data %}
+                              <tbody>
+                                   <tr align="center">
+                                        <td>{{ supplier.nama }}</td>
+                                        {% for a in selected_kriteria_data %}
+                                        <td>
+                                             <input type="number" class="shadow-lg form-control text-center"
+                                                  name="numVariables" required min="1" max="5" />
+                                        </td>
+                                        {% endfor %}
+                                   </tr>
+                              </tbody>
+                              {% endfor %}
+                         </table>
+                    </div>
+               </div>
+
+               <div class="form row justify-content-end mt-4">
+                    <div class="form-group col-12">
+                         <button type="submit" class="form btn-block dustyGreen text-white mt-2">
+                              Start Calculation
+                         </button>
+                    </div>
+               </div>
+          </form>
+     </div>
+</div>
+{% endif %}
+
+
+{% endblock %}

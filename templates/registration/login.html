@@ -1,0 +1,83 @@
+{% extends 'layout/main.html' %}
+{% block title %} Login {% endblock %}
+{% block non_authenticated_content %}
+
+
+<div class="container">
+     <!-- Outer Row -->
+     <div class="row d-plex justify-content-between">
+          <div class="col-xl-6 col-lg-6 col-md-6 mt-5">
+               <div class="card bg-none o-hidden border-0 my-5 text-white" style="background: none;">
+                    <div class="text-justify card-body p-0">
+                         <div class="text-justify card-body p-0">
+                              <h4 style="font-weight: 800;">Decision Support System BWM-MARCOS Method</h4>
+                              <p>
+                                   The Best Worst Method, or BWM, was introduced by Dr. Jafar Rezaei in 2015 as a method
+                                   to address limitations in existing comparison methods. Commonly used Multi-Criteria
+                                   Decision Making methods like AHP often result in inconsistent paired comparison
+                                   matrices.
+                              </p>
+                              <p>
+                                   Measurement of Alternatives and Ranking according to Compromise Solution, abbreviated
+                                   as MARCOS, is a method used to evaluate a set of alternatives in relation to a set of
+                                   decision criteria. This method is based on defining the relationship between
+                                   alternatives and reference values (ideal and anti-ideal alternatives). Based on this
+                                   relationship, the corresponding utility function for the considered alternatives is
+                                   calculated, and compromise rankings are formulated in relation to the ideal utility
+                                   function.
+                              </p>
+                         </div>
+                    </div>
+               </div>
+          </div>
+
+          <div class="col-xl-5 col-lg-5 col-md-5 mt-5">
+               <div class="card o-hidden border-0 shadow-lg my-5">
+                    <div class="card-body p-0">
+                         <div class="row">
+                              <div class="col-lg-12">
+                                   <div class="p-5">
+                                        <div class="text-center">
+                                             <h1 class="h4 text-gray-900 mb-4">Login Account</h1>
+                                        </div>
+                                        <form method="post" action="{% url 'login' %}">
+                                             <div class="row">
+                                                  {% csrf_token %}
+                                                  <div class="col-12">
+                                                       <label for="username" class="form-label">Username</label>
+                                                       {{ form.username }}
+                                                       {% if form.errors.username %}
+                                                       <ul class="errorlist">
+                                                            {% for error in form.errors.username %}
+                                                            <li class="text-danger">{{ error }}</li>
+                                                            {% endfor %}
+                                                       </ul>
+                                                       {% endif %}
+                                                  </div>
+                                                  <div class="col-12">
+                                                       <label for="password" class="form-label">Password</label>
+                                                       {{ form.password }}
+                                                       {% if form.errors.password %}
+                                                       <ul class="errorlist">
+                                                            {% for error in form.errors.password %}
+                                                            <li class="text-danger">{{ error }}</li>
+                                                            {% endfor %}
+                                                       </ul>
+                                                       {% endif %}
+                                                  </div>
+                                             </div>
+                                             <button name="submit" type="submit"
+                                                  class="btn mt-3 dustyGreen btn-user btn-block text-white"><i
+                                                       class="fas fa-fw fa-sign-in-alt mr-1"></i>Sign In</button>
+                                        </form>
+                                   </div>
+                              </div>
+                         </div>
+                    </div>
+               </div>
+          </div>
+     </div>
+</div>
+
+
+{% endblock %}

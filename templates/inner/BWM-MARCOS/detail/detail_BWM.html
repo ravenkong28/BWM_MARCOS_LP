@@ -1,0 +1,216 @@
+{% extends 'layout/main.html' %}
+{% load static %}
+
+{% block content %}
+
+{% if user.is_authenticated %}
+<div>
+     <a class="btn dustyGreen text-white mt-2" href="{% url 'home' %}">
+          <i class='bx bx-arrow-back'></i>
+     </a>
+     <h2 class="text-center mb-4">HOW BMW-MARCOS WORKS</h2>
+</div>
+
+<h4>BWM-MARCOS Method</h4>
+
+<p>BWM-MARCOS is a combination of two methods, namely Best Worst Method (BWM) and Measurement of Alternatives and
+     Ranking According to Compromise Solution (MARCOS). These two methods function in the realm of Multi-Criteria
+     Decision Making (MCDM), aiming to evaluate a series of alternatives in relation to a set of decision criteria. BWM
+     is based on systematically paired comparisons of decision criteria, while MARCOS is based on defining the
+     relationship between alternatives and reference values (ideal and anti-ideal alternatives).</p>
+
+<p>By merging the concepts of BWM and MARCOS, the method produces a utility function value for the considered
+     alternatives, calculated based on this relationship. A compromise ranking is formulated in relation to the ideal
+     utility function.</p>
+
+<p>The MARCOS method is a relatively new and straightforward MCDM technique that can be applied in various fields, such
+     as supplier selection in the healthcare industry.</p>
+
+
+<h4>Best Worst Method (BWM)</h4>
+
+<p>The Best Worst Method (BWM), introduced by Dr. Jafar Rezaei in 2015, addresses limitations found in commonly used
+     multiple criteria decision-making (MCDM) methods such as the Analytic Hierarchy Process (AHP), which may produce
+     inconsistent pairwise comparison matrices.</p>
+
+<p>BWM eliminates these inconsistency challenges by systematically comparing criteria using a different approach. Dr.
+     Jafar Rezaei's approach involves several stages:</p>
+
+<ol>
+     <li><strong>1. Identify Criteria</strong></li>
+     <p>Decision-makers initially identify criteria relevant to the problem at hand, forming a group of criteria \(
+          \left\{c_1, c_2, \ldots, c_n\right\} \) influencing the decision.</p>
+
+     <li><strong>2. Determine Best and Worst Criteria</strong></li>
+     <p>The decision-maker then selects two criteria labeled as the best and worst criteria from the identified
+          criteria. The best criteria play the most crucial role in decision-making, while the worst criteria play the
+          opposite role.</p>
+
+     <li><strong>3. Compare Other Criteria with Best and Worst Criteria</strong></li>
+     <p>The decision-maker then provides preferences in the form of comparison values between the best criteria and
+          other criteria, as well as comparisons of all criteria with the worst criteria. The comparisons use a
+          numerical scale from 1 to 9, as defined in the table below.</p>
+
+     <p class="text-center"><strong>BWM Priority Level Table</strong></p>
+     <div class="card-body mt-3">
+          <div class="table-responsive">
+               <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead class="text-white">
+                         <tr align="center">
+                              <th>Intensitas Prioritas</th>
+                              <th>Definisi</th>
+                         </tr>
+                    </thead>
+                    <tbody class="text-center">
+                         <tr>
+                              <td>1</td>
+                              <td>Equal importance</td>
+                         </tr>
+                         <tr>
+                              <td>2</td>
+                              <td>Somewhat between equal and moderate</td>
+                         </tr>
+                         <tr>
+                              <td>3</td>
+                              <td>Moderately more important than</td>
+                         </tr>
+                         <tr>
+                              <td>4</td>
+                              <td>Somewhat between Moderate and Strong</td>
+                         </tr>
+                         <tr>
+                              <td>5</td>
+                              <td>Strongly more important than</td>
+                         </tr>
+                         <tr>
+                              <td>6</td>
+                              <td>Somewhat between Strong and Very Strong</td>
+                         </tr>
+                         <tr>
+                              <td>7</td>
+                              <td>Very strongly important than</td>
+                         </tr>
+                         <tr>
+                              <td>8</td>
+                              <td>Somewhat between Very strong and Absolute</td>
+                         </tr>
+                         <tr>
+                              <td>9</td>
+                              <td>Absolutely more important than</td>
+                         </tr>
+                    </tbody>
+               </table>
+          </div>
+     </div>
+
+     <p>The results of these comparison values are formulated into equations (1) and (2) as follows:</p>
+     <p class="text-center">\[ A_B=(a_{B1},a_{B2},…,a_{Bn}) \tag{1} \]</p>
+     <p class="text-center">\[ A_W=(a_{1W},a_{2W},…,a_{nW})^T \tag{2} \]</p>
+     <p>Where \( A_{Bn} \) represents the preference value of the best criteria for criterion \( n \), and \( A_{nW} \)
+          represents the preference value of criterion \( n \) for the worst criteria. The stages of preference
+          comparison are illustrated in the following image:</p>
+
+     <div style="text-align: center;">
+          <img src="{% static 'images/documentation_BWMMARCOS/gambar1.jpg' %}"
+               alt="Stages of preference comparison in the BWM method (Source: Jafar Rezaei, 2015)">
+     </div>
+     <br><br>
+     <li><strong>4. Find Optimal Weights (\( w_1^*,w_2^*,…,w_n^* \))</strong></li>
+     <p>The optimal weight values for each criterion are initially obtained from the comparison matrix results for each
+          pair \( w_B/w_j \) and \( w_j/w_W \), where \( w_B/w_j=a_{Bj} \) and \( w_j/w_W=a_{jW} \).</p>
+
+     <p>To satisfy all \( j \), the absolute difference of the maximum solution must be sought for \( |w_B/w_j -a_{Bj}|
+          \) and \( |w_j/w_W -a_{jW}| \) for all \( j \) to be minimum. Determining the optimal weights involves
+          formulating the optimization model into equation (3) as follows:</p>
+
+     <p class="text-center">\( \min \max_j \{|w_B/w_j -a_{Bj}|,|w_j/w_W -a_{jW}|\} \)</p>
+     <p class="text-     center">\[( \sum_j \text{(s.t.)} w_j=1, w_j \geq 0, \text{for all } j ) \tag{3} \]</p>
+
+     <p>By converting this optimization model into a new model, we get:</p>
+     <div class="text-center">
+          <p>\( \min \xi \)</p>
+          <p>\( \text{s.t.} \)</p>
+          <p>\( |w_B/w_j -a_{Bj}| \leq \xi, \text{for all } j \)</p>
+          <p>\( |w_j/w_W -a_{jW}| \leq \xi, \text{for all } j \)</p>
+          <p>\( \sum_j w_j=1 \)</p>
+          <p>\[( w_j \geq 0, \text{for all } j ) \tag{4} \]</p>
+     </div>
+
+     <p>Thus, from equation (4), the converted model will yield the optimal weight values \( (w_1^*,w_2^*,…,w_n^*) \).
+     </p>
+</ol>
+
+<br><br>
+
+
+<h4>Measurement of Alternatives and Ranking according to Compromise Solution (MARCOS)</h4>
+
+<p>The Measurement of Alternatives and Ranking according to Compromise Solution, commonly abbreviated as MARCOS, is a
+     method used to evaluate a set of alternatives in relation to a set of decision criteria. This method is based on
+     defining the relationship between alternatives and reference values (ideal and anti-ideal alternatives).</p>
+
+<p>Based on this relationship, the corresponding utility functions of the considered alternatives are calculated, and a
+     compromise ranking is formulated concerning the ideal utility function. MARCOS is a relatively new and simple
+     Multiple Criteria Decision Making (MCDM) technique applicable in various fields, such as supplier selection in the
+     healthcare industry.</p>
+
+<p>Steps for Calculating using MARCOS Method:</p>
+<ol>
+     <li><strong>1. Form the Initial Decision Matrix</strong></li>
+     <p>In this step, create the initial decision matrix consisting of several alternatives and criteria.</p>
+
+     <li><strong>2. Form the Extended Initial Decision Matrix</strong></li>
+     <p>Extend the initial matrix by determining ideal (AI) and anti-ideal (AAI) solutions.</p>
+
+     <div style="text-align: center;">
+          <img src="{% static 'images/documentation_BWMMARCOS/gambar2.jpg' %}" alt="Image Description">\[\tag{5} \]
+     </div>
+     <p>The anti-ideal solution (AAI) represents the worst alternative, while the ideal solution (AI) is the best
+          alternative. Based on the type of criteria, AAI and AI are calculated using the following equations.</p>
+
+
+     \[AAI\begin{cases} _i^{\min}x_{ij}, & \text{if } j\in B \\ _i^{\max}x_{ij}, & \text{if } j\in C \end{cases}\tag{6}
+     \]
+     \[AI\begin{cases} _i^{\max}x_{ij}, & \text{if } j\in B \\ _i^{\min}x_{ij}, & \text{if } j\in C \end{cases}\tag{7}
+     \]
+     <li><strong>3. Normalize the Matrix (\(N\))</strong></li>
+     <p>The normalized matrix elements \(N = [n_{ij}]_{m \times n}\) are generated by the equations:</p>
+
+     <p>\[(n_{ij} = \frac{x_{ai}}{x_{ij}}, \text{ if } j \in C)\tag{8} \]</p>
+     <p>\[(n_{ij} = \frac{x_{ij}}{x_{ai}}, \text{ if } j \in B)\tag{9} \]</p>
+
+     <li><strong>4. Form the Weighted Decision Matrix (\(V\))</strong></li>
+     <p>Calculate the weighted matrix \(V\) by multiplying the normalized matrix by the weighting coefficients \(w_j\).
+     </p>
+
+     <p>\[(v_{ij} = n_{ij} \times w_j)\tag{10} \]</p>
+
+     <li><strong>5. Calculate the Utility Value of Alternatives (\(K_i\))</strong></li>
+     <p>Compute the utility value of an alternative in relation to the anti-ideal and ideal solutions using the
+          equations:</p>
+
+     <p>\[(K_i^- = \frac{S_i}{S_{aai}})\tag{11} \]</p>
+     <p>\[(K_i^+ = \frac{S_i}{S_{ai}})\tag{12} \]</p>
+
+     <p>Where \(S_i (i=1,2,3,\ldots,m)\) represents the sum of elements in the weighted matrix \(V\) for</p>
+     <p>\[(S_i = \sum_{i=1}^{n} v_{ij})\tag{13} \]</p>
+
+     <li><strong>6. Determine the Utility Function of Alternatives (\(f(K_i)\))</strong></li>
+     <p>The utility function is a compromise of the observed alternatives in relation to ideal and anti-ideal solutions.
+          The utility function of the alternative \(f(K_i)\) is defined as:</p>
+
+     <p>\[(f(K_i) = \frac{K_i^+ + K_i^-}{1 + \frac{1-f(K_i^+)}{f(K_i^+)} + \frac{1-f(K_i^-)}{f(K_i^-)}})\tag{14} \]</p>
+
+     <p>Where \(f(K_i^-)\) is related to the anti-ideal solution, and \(f(K_i^+)\) is related to the ideal solution.
+          Utility function values for ideal and anti-ideal solutions are calculated using the equations:</p>
+
+     <p>\[(f(K_i^+) = \frac{K_i^+}{K_i^+ + K_i^-})\tag{15} \]</p>
+     <p>\[(f(K_i^-) = \frac{K_i^-}{K_i^+ + K_i^-})\tag{16} \]</p>
+
+     <li><strong>7. Rank Alternatives</strong></li>
+     <p>Rank alternatives based on the utility function values; the higher the value, the higher the ranking.</p>
+</ol>
+<br>
+
+{% endif %}
+{% endblock %}

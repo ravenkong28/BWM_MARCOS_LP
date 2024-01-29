@@ -1,0 +1,107 @@
+{% extends 'layout/main.html' %}
+{% block title %} Register {% endblock %}
+{% block non_authenticated_content %}
+<div class="container">
+     <div class="row d-plex justify-content-between">
+          <div class="col-xl-5 col-lg-5 col-md-5 mt-5">
+               <div class="card o-hidden border-0 shadow-lg my-5">
+                    <div class="card-body p-0">
+                         <div class="row">
+                              <div class="col-lg-12">
+                                   <div class="p-5">
+                                        <div class="text-center">
+                                             <h1 class="h4 text-gray-900 mb-4">Sign Up Account</h1>
+                                        </div>
+                                        <form method="post" action="{% url 'register' %}">
+                                             <div class="row">
+                                                  {% csrf_token %}
+                                                  <!-- {{ form.as_p }} -->
+                                                  <div class="col-md-6">
+                                                       <label for="FirstName" class="form-label">First Name</label>
+                                                       {{ form.first_name }}
+                                                       {% if form.errors.first_name %}
+                                                       <ul class="errorlist">
+                                                            {% for error in form.errors.first_name %}
+                                                                 <li class="text-danger">{{ error }}</li>
+                                                            {% endfor %}
+                                                            </ul>
+                                                       {% endif %}
+                                                  </div>
+                                                  <div class="col-md-6">
+                                                       <label for="LastName" class="form-label">Last Name</label>
+                                                       {{ form.last_name }}
+                                                       {% if form.errors.last_name %}
+                                                            <ul class="errorlist">
+                                                                 {% for error in form.errors.last_name %}
+                                                                      <li class="text-danger">{{ error }}</li>
+                                                                 {% endfor %}
+                                                            </ul>
+                                                       {% endif %}
+                                                  </div>
+                                                  <div class="col-12">
+                                                       <label for="username" class="form-label">Username</label>
+                                                       {{ form.username }}
+                                                       {% if form.errors.username %}
+                                                            <ul class="errorlist">
+                                                                 {% for error in form.errors.username %}
+                                                                      <li class="text-danger">{{ error }}</li>
+                                                                 {% endfor %}
+                                                            </ul>
+                                                       {% endif %}
+                                                  </div>
+                                                  <div class="col-12">
+                                                       <label for="email" class="form-label">E-mail</label>
+                                                       {{ form.email }}
+                                                       {% if form.errors.email %}
+                                                            <ul class="errorlist">
+                                                                 {% for error in form.errors.email %}
+                                                                      <li class="text-danger">{{ error }}</li>
+                                                                 {% endfor %}
+                                                            </ul>
+                                                       {% endif %}
+                                                  </div>
+                                                  <div class="col-12">
+                                                       <label for="password1" class="form-label">Password</label>
+                                                       {{ form.password1 }}
+                                                       {% if form.errors.password1 %}
+                                                            <ul class="errorlist">
+                                                                 {% for error in form.errors.password1 %}
+                                                                      <li class="text-danger">{{ error }}</li>
+                                                                 {% endfor %}
+                                                            </ul>
+                                                       {% endif %}
+                                                  </div>
+                                                  <div class="col-12">
+                                                       <label for="password2" class="form-label">Confirm password</label>
+                                                       {{ form.password2 }}
+                                                       {% if form.errors.password2 %}
+                                                            <ul class="errorlist">
+                                                                 {% for error in form.errors.password2 %}
+                                                                      <li class="text-danger">{{ error }}</li>
+                                                                 {% endfor %}
+                                                            </ul>
+                                                       {% endif %}
+                                                  </div>
+                                             </div>
+                                             <button name="submit" type="submit" class="btn mt-3 dustyGreen btn-user btn-block text-white"><i class="fas fa-fw fa-sign-in-alt mr-1"></i>Sign Up</button>
+                                        </form>
+                                   </div>
+                              </div>
+                         </div>
+                    </div>
+               </div>
+          </div>
+          <div class="col-xl-6 col-lg-6 col-md-6 mt-5">
+               <div class="card bg-none o-hidden border-0 my-5 text-white" style="background: none;">
+                    <div class="text-justify card-body p-0">
+                         <h4 style="font-weight: 800;">Decision Support System BWM-MARCOS Method</h4>
+                         <p class="pt-4">
+                         BWM-MARCOS is a combination of two methods: Best Worst Method (BWM) and Measurement of Alternatives and Ranking According to Compromise Solution (MARCOS). These methods are used for Multi-Criteria Decision Making (MCDM) to evaluate a set of alternatives in relation to a set of decision criteria. BWM is based on systematically comparing paired decision criteria, while MARCOS is based on defining the relationship between alternatives and reference values (ideal and anti-ideal alternatives). By combining the concepts of BWM and MARCOS, a utility function value for the considered alternatives is calculated based on this relationship, and compromise rankings are formulated in relation to the ideal utility function.
+                         </p>
+                    </div>
+               </div>
+          </div>
+     </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,104 @@
+{% extends 'layout/main.html' %}
+{% load static %}
+{% block content %}
+<div>
+     <a class="btn dustyGreen text-white mt-2" href="{% url 'home' %}">
+          <i class='bx bx-arrow-back'></i>
+     </a>
+     <h2 class="text-center mb-4">HOW GOMORY CUT / CUTTING PLANE METHOD WORKS</h2>
+</div>
+
+<h4>Integer Linear Programming</h4>
+
+<p>Integer Linear Programming is a type of optimization or mathematical feasibility program where some or all variables
+     are constrained to be integers. It is used to find optimal solutions for specific types of problems, such as
+     production planning, capital budgeting, crew scheduling, and Sudoku puzzles. Integer Linear Programming differs
+     from Linear Programming in the use of integer constraints rather than real number constraints.</p>
+
+<p>Integer Linear Programming can be divided into 3 types:</p>
+<ol>
+     <li><strong>1. Pure Integer Linear Programming</strong></li>
+     <p>Expects all basic variables to be integer values (positive integers or
+          zero).</p>
+     <li><strong>2. Mixed Integer Linear Programming</strong></li>
+     <p>Expects only some specific variables to be integer values.</p>
+     <li><strong>3. Zero-One Integer Linear Programming (1/0 IP)</strong></li>
+     <p>Expects variables to take values of either zero or one.</p>
+</ol>
+
+<p>Several methods formed using Integer Linear Programming are commonly used either separately or to obtain better
+     solutions:</p>
+<ul>
+     <li>1. Gomory Cut Method / Cutting Plane Method</li>
+     <li>2. Branch and Bound (B&B) Method</li>
+     <li>3. Round Off Method</li>
+</ul>
+
+<p>The equation form of Integer Linear Programming used is:</p>
+<p>Fungsi objektif \(Max\ Z=C_1x_1+C_2x_2+\ldots+C_nx_n\) (1)</p>
+<p>Subject to:</p>
+<p>\(a_{11}x_1+a_{12}x_2+\ldots+a_{1n}x_n\le b_1\)</p>
+<p>\(a_{21}x_1+a_{22}x_2+\ldots+a_{2n}x_n\le b_2\)</p>
+<p>\(\vdots\)</p>
+<p>\(a_{n1}x_1+a_{n2}x_2+\ldots+a_{nn}x_n\le b_n\)</p>
+<p>\(x_1,x_2,\ldots,x_n\geq0,\ \ dan\ \ x_1,x_2,\ldots,x_n=integer\) </p>
+
+<p>Solving ILP problems to obtain optimal results using various software, commonly Solver in Microsoft Excel, is
+     particularly useful for ILP with long formulations and many constraints, requiring a considerable amount of
+     computation time (Pratamaputra, 2017).</p>
+
+<h4>Gomory Cut / Cutting Plane Method</h4>
+
+<p>The Gomory Cut / Cutting Plane Method is one of the methods to solve large-scale integer programming problems to
+     obtain values close to optimal (Daniel Thuerck, Boro Sofranac, Marc E. Pfetsch, Sebastian Pokutta, 2023).</p>
+
+<p>The method involves three steps:</p>
+<ol>
+     <li>1. Solve the integer programming problem using the ordinary simplex method.</li>
+     <li>2. Observe the optimum solution. If all basic variables already have integer values, the integer solution has
+          been obtained, and the process ends. If one or more basic variables have fractional values, proceed to step 3.
+     </li>
+     <li>3. Create a Gomory constraint and find the optimal solution through elementary row operations. Return to step
+          2.</li>
+</ol>
+
+<p>If the initial simplex table is in the form:</p>
+<p class="text-center"><strong>Early Simplex Table</strong></p>
+<div style="text-align: center;">
+     <img src="{% static 'images/documentation_ILP/gambar3.jpg' %}" alt="Early Simplex Table">
+</div>
+<p>Where \(x_1, x_2, \ldots, x_m\) are the basic variables, \(s_1, s_2, \ldots, s_n\) are the non-basic variables, and
+     considering the \(m\)-th equation where \(x_m\) has a non-integer value:</p>
+
+\[ x_m = b_m - \sum{a_{mn} \cdot W_n}, \ \ b \neq \text{integer} \tag{1} \]
+
+<p>Then separate \(b_m\) and \(a_{mn}\) into integral and non-negative fractional parts with the following equations:
+</p>
+
+\[ b_m = b_{\bar{m}} + f_m, \ \ 0 \leq f_m < 1 \tag{2} \] \[ a_{mn}=a_{\bar{mn}} + f_{mn}, \ \ 0 \leq f_{mn} < 1 \tag{3}
+     \] <p>For example:</p>
+     <p class="text-center"><strong>Example of calculation \( b_m \) and \( a_{mn} \)</strong></p>
+     <div style="text-align: center;">
+          <img src="{% static 'images/documentation_ILP/gambar4.jpg' %}" alt="Example of calculation b_m and a_mn">
+     </div>
+     <p>The desired Gomory constraint is:</p>
+
+     \[ S_g - f_{mn} s_n = -f_m, \ \ S_g \text{ is the slack of Gomory constraint } k \]
+
+     <p>Therefore, the new table after adding the Gomory constraint becomes:</p>
+     <p class="text-center"><strong>New Table After Adding the Gomory Constraint</strong></p>
+     <div style="text-align: center;">
+          <img src="{% static 'images/documentation_ILP/gambar5.jpg' %}"
+               alt="new table after adding the Gomory constraint">
+     </div>
+     <p>Gomory constraints in Pure Integer Programming:</p>
+     <ol>
+          <li>1. If the primal optimal solution is obtained but is infeasible, use the simplex method.</li>
+          <li>2. The process of forming Gomory constraints ends if the new solution is all integers.</li>
+          <li>3. If not, create a new Gomory constraint from the generated table, and use the dual simplex method again
+               to address infeasibility.</li>
+          <li>4. If at each iteration of the dual simplex method, there is no feasible solution, it means the problem
+               does not have a feasible integer solution.</li>
+     </ol>
+     <br>
+     {% endblock %}

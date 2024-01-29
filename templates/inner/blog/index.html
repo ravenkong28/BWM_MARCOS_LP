@@ -1,0 +1,66 @@
+{% extends 'layout/main.html' %}
+{% block title %}Home Page{% endblock %}
+{% load crispy_forms_tags %}
+{% block content %}
+<style>
+     .img-thumbnail-container {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          height: 100%;
+          /* Tambahkan ini untuk menentukan tinggi secara eksplisit */
+     }
+
+     .img-thumbnail {
+          max-width: 100%;
+          max-height: 100%;
+     }
+</style>
+<div class="container">
+     <div class="row mt-5 pt-3">
+          <div class="row">
+               <div class="card my-3 shadow">
+                    <div class="card-body">
+                         <div class="post-form-header">
+                              <h2 class="text-center">Create a New Post</h2>
+                         </div>
+                         <form method="POST">
+                              {% csrf_token %}
+                              {{ form|crispy }}
+                              <div class="form row justify-content-end mt-2">
+                                   <div class="form-group col-12">
+                                        <button type="submit" class="form btn-block dustyGreen text-white mt-2">
+                                             Post
+                                        </button>
+                                   </div>
+                              </div>
+                         </form>
+                    </div>
+               </div>
+          </div>
+          <div class="row">
+               {% for post in posts %}
+               <div class="card shadow my-3">
+                    <div class="card-body">
+                         <div class="row">
+                              <div class="col-md-4">
+                                   <img class="img-thumbnail" src="{{ post.author.profilemodel.image.url }}" alt="img"
+                                        style="width: 250px; height: 200px;">
+                              </div>
+                              <div class="col-md-8">
+                                   <small>{{ post.author }}</small> -
+                                   <small>{{ post.date_created }}</small>
+                                   <hr>
+                                   <a class="h3" href="{% url 'blog-post-detail' post.id %}">{{ post.title }}</a>
+                                   <p class="text-justify my-3">
+                                        {{ post.content }}
+                                   </p>
+                              </div>
+                         </div>
+                    </div>
+               </div>
+               {% endfor %}
+          </div>
+     </div>
+</div>
+{% endblock %}

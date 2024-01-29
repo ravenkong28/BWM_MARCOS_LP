@@ -1,0 +1,93 @@
+{% extends 'layout/main.html' %}
+
+{% block content %}
+<form method="post">
+     {% csrf_token %}
+     {% if kriteria_list %}
+     <div class="card-body mt-3">
+          <p><strong>Please select all or several criteria to do calculation</strong></p>
+          <div class="table-responsive">
+               <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead class="text-white">
+                         <tr align="center">
+                              <th width="5%">Select</th>
+                              <th width="5%">No</th>
+                              <th>Code of Criteria</th>
+                              <th>Name of Criteria</th>
+                              <th>Type of Criteria</th>
+                         </tr>
+                    </thead>
+                    <tbody>
+                         {% for kriteria in kriteria_list %}
+                         <tr align="m-1">
+                              <td align="center">
+                                   <input type="checkbox" name="selected_kriteria" value="{{ kriteria.id }}">
+                              </td>
+                              <td class="text-center">{{ forloop.counter }}.</td>
+                              <td>{{ kriteria.kode_kriteria }}</td>
+                              <td>{{ kriteria.nama_kriteria }}</td>
+                              <td>{{ kriteria.jenis_kriteria }}</td>
+                         </tr>
+                         {% endfor %}
+                    </tbody>
+               </table>
+          </div>
+          <div>
+               <p>Wanna add another criteria ?<a class="mt-2" href="{% url 'create-kriteria' %}">
+                         Click here.</a>
+                    </small>
+          </div>
+     </div>
+
+
+     {% else %}
+     test<h5 class="text-center mt-5">There's no data criteria, you must add a new criteria</h5>
+     {% endif %}
+
+
+
+
+
+     {% if supplier_list %}
+     <div class="card-body mt-3">
+          <p><strong>Please select all or several supplier to do calculation</strong></p>
+          <div class="table-responsive">
+               <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead class="text-white">
+                         <tr align="center">
+                              <th width="5%">Select</th>
+                              <th width="5%">No</th>
+                              <th>Name of Supplier</th>
+                              <th>Address</th>
+                              <th>Phone Number</th>
+                         </tr>
+                    </thead>
+                    <tbody>
+                         {% for supplier in supplier_list %}
+                         <tr align="m-1">
+                              <td align="center">
+                                   <input type="checkbox" name="selected_supplier" value="{{ supplier.id }}">
+                              </td>
+                              <td class="text-center">{{ forloop.counter }}.</td>
+                              <td>{{ supplier.nama }}</td>
+                              <td>{{ supplier.alamat }}</td>
+                              <td>{{ supplier.nomor_telepon }}</td>
+                         </tr>
+                         {% endfor %}
+                    </tbody>
+               </table>
+          </div>
+          <div>
+               <small>Wanna add another supplier ?<a class="mt-2" href="{% url 'create-supplier' %}">
+                         Click here.
+                    </a></small>
+          </div>
+          {% else %}
+          <h5 class="text-center mt-5">There's no data supplier, you must add a new supplier</h5>
+          {% endif %}
+
+          <div class="text-center mt-3">
+               <button type="submit" class="btn dustyGreen text-white">Submit Selection</button>
+          </div>
+</form>
+{% endblock %}

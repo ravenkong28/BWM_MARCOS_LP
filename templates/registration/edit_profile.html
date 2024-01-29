@@ -1,0 +1,77 @@
+{% extends 'layout/main.html' %}
+{% block title %}Edit Profile{% endblock %}
+{% block content %}
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+     <h1 class="h3 mb-0 text-gray-800"><i class="bx bx-user"></i> Data Profile</h1>
+</div>
+
+<div class="card shadow mb-4">
+     <div class="card-header py-3">
+          <h6 class="m-0 font-weight-bold text-success"><i class="bx bx-edit"></i> Edit Data Profile</h6>
+     </div>
+
+     <form method="POST" enctype="multipart/form-data">
+          {% csrf_token %}
+          <div class="card-body">
+               <div class="row">
+                    <div class="col-md-2">
+                         <img class="img-thumbnail" src="{{ user.profilemodel.image.url }}" alt="profile-img"
+                              style="max-width: 200px; height: 175px;">
+                         <div class="form-group mt-3">
+                              <label for="id_image" class="font-weight-bold">Change Profile Picture</label>
+                              <input type="file" class="form-control-file" id="id_image" name="image" accept="image/*">
+                              {% if profile_form.image.errors %}
+                              <small class="text-danger">{{ profile_form.image.errors.0 }}</small>
+                              {% endif %}
+                         </div>
+                    </div>
+                    <div class="col-md-10">
+                         <div class="row">
+                              <input type="hidden" name="id_user" value="{{ user.id }}">
+                              <div class="form-group col-md-6">
+                                   <label class="font-weight-bold">E-mail</label>
+                                   {{ user_form.email }}
+                                   {% for error in user_form.email.errors %}
+                                   <span class="text-danger">{{ error }}</span>
+                                   {% endfor %}
+                              </div>
+
+                              <div class="form-group col-md-6">
+                                   <label class="font-weight-bold">Username</label>
+                                   {{ user_form.username }}
+                                   {% for error in user_form.username.errors %}
+                                   <span class="text-danger">{{ error }}</span>
+                                   {% endfor %}
+                              </div>
+
+                              <div class="form-group col-md-6">
+                                   <label class="font-weight-bold">First Name</label>
+                                   {{ user_form.first_name }}
+                                   {% for error in user_form.first_name.errors %}
+                                   <span class="text-danger">{{ error }}</span>
+                                   {% endfor %}
+                              </div>
+
+                              <div class="form-group col-md-6">
+                                   <label class="font-weight-bold">Last Name</label>
+                                   {{ user_form.last_name }}
+                                   {% for error in user_form.last_name.errors %}
+                                   <span class="text-danger">{{ error }}</span>
+                                   {% endfor %}
+                              </div>
+                         </div>
+                    </div>
+               </div>
+          </div>
+
+          <div class="card-footer text-right">
+               <button type="submit" class="btn dustyGreen text-white" id="updateButton">
+                    <i class="bx bx-save"></i> Update
+               </button>
+               <a class="btn btn-dark text-white" href="{% url 'change_password' %}">
+                    <i class="bx bxs-lock"></i> Change Password
+               </a>
+          </div>
+     </form>
+</div>
+{% endblock %}

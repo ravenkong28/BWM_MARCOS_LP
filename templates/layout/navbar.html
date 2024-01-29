@@ -1,0 +1,154 @@
+{% load static %}
+
+{% if user.is_authenticated %}
+<div class="sidebar close">
+  <!-- LOGO -->
+  <a href="#" class="logo-box">
+    <i class="bx bxl-xing"></i>
+    <div class="logo-name">Welcome, {{ user.first_name }}</div>
+  </a>
+
+  <!-- LIST -->
+  <ul class="sidebar-list">
+    <li>
+      <div class="title">
+        <a href="{% url 'blog-index' %}" class="link">
+          <i class='bx bx-grid-alt'></i>
+          <span class="name">Post</span>
+        </a>
+      </div>
+      <div class="submenu">
+        <a href="{% url 'blog-index' %}" class="link submenu-title">Post</a>
+      </div>
+    </li>
+
+
+    <li class="dropdown">
+      <div class="title">
+        <a href="#" class="link">
+          <i class='bx bx-detail'></i>
+          <span class="name">Documentation</span>
+        </a>
+        <i class='bx bxs-chevron-down'></i>
+      </div>
+      <div class="submenu">
+        <p class="link submenu-title">Documentation</p>
+        <a href="{% url 'detail_BWMMARCOS' %}" class="link">How BWM-MARCOS Works</a>
+        <a href="{% url 'detail_ILP' %}" class="link">How Gomory's Cutting Plane Works</a>
+        <a href="{% url 'detail' %}" class="link">Detail How To Use</a>
+      </div>
+    </li>
+
+    <!-- Dropdown List Item -->
+    <li class="dropdown">
+      <div class="title">
+        <a href="#" class="link">
+          <i class='bx bx-calculator'></i>
+          <span class="name">Supplier Recommendation</span>
+        </a>
+        <i class='bx bxs-chevron-down'></i>
+      </div>
+      <div class="submenu">
+        <p class="link submenu-title">Supplier Recommendation</p>
+        <a href="{% url 'view_kriteria' %}" class="link">List of Criteria</a>
+        <a href="{% url 'view_supplier' %}" class="link">List of Supplier</a>
+        <a href="{% url 'select_kriteria' %}" class="link">Calculations of BWM-MARCOS</a>
+      </div>
+    </li>
+    <li>
+      <div class="title">
+        <a href="{% url 'lp_perhitungan' %}" class="link">
+          <i class='bx bx-pie-chart-alt-2'></i>
+          <span class="name">Optimization</span>
+        </a>
+      </div>
+      <div class="submenu">
+        <a href="{% url 'lp_perhitungan' %}" class="link submenu-title">Optimization</a>
+      </div>
+    </li>
+
+    <hr>
+
+    <li>
+      <div class="title">
+        <a href="{% url 'edit_profile' %}" class="link">
+          <i class='bx bx-user'></i>
+          <span class="name">Profile</span>
+        </a>
+      </div>
+      <div class="submenu">
+        <a href="{% url 'edit_profile' %}" class="link submenu-title">Profile</a>
+      </div>
+    </li>
+    <hr>
+    {% if user.is_authenticated %}
+    <li>
+      <div class="title">
+        <a href="{% url 'logout' %}" class="link">
+          <i class='bx bx-log-out'></i>
+          <span class="name">Logout</span>
+        </a>
+      </div>
+      <div class="submenu">
+        <a href="{% url 'logout' %}" class="link submenu-title">Logout</a>
+      </div>
+    </li>
+    {% else %}
+    <li>
+      <div class="title">
+        <a href="{% url 'register' %}" class="link">
+          <i class='bx bx-registered'></i>
+          <span class="name">Register</span>
+        </a>
+      </div>
+      <div class="submenu">
+        <a href="{% url 'register' %}" class="link submenu-title">Register</a>
+      </div>
+    </li>
+
+    <li>
+      <div class="title">
+        <a href="{% url 'login' %}" class="link">
+          <i class='bx bx-log-in'></i>
+          <span class="name">Login</span>
+        </a>
+      </div>
+      <div class="submenu">
+        <a href="{% url 'login' %}" class="link submenu-title">Login</a>
+      </div>
+    </li>
+    {% endif %}
+  </ul>
+</div>
+
+{% else %}
+<header role="banner mb-2">
+  <a href="{% url 'home' %}">
+    <img id="logo-main" src="{% static 'images/LogoMojiyama2.jpg' %}" width="100" alt="logo">
+  </a>
+
+  <nav class="navbar navbar-expand-lg rounded navbar-outer">
+    <div class="container-fluid">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample08"
+        aria-controls="navbarsExample08" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse justify-content-md-center" id="navbarsExample08">
+        <ul class="navbar-nav">
+          <li class="nav-item {% if active_page == 'home' %}active{% endif %}">
+            <a class="nav-link" href="{% url 'home' %}">Home</a>
+          </li>
+          <li class="nav-item {% if active_page == 'register' %}active{% endif %}">
+            <a class="nav-link" href="{% url 'register' %}">Register</a>
+          </li>
+          <li class="nav-item {% if active_page == 'login' %}active{% endif %}">
+            <a class="nav-link" href="{% url 'login' %}">Login</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</header>
+
+{% endif %}

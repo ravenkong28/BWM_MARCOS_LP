@@ -1,0 +1,29 @@
+{% extends 'layout/main.html' %}
+{% block title %}Post Edit Page{% endblock %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="container">
+     <div class="row mt-5 pt-3">
+          <div class="col-md-8 offset-md-2">
+               <div class="card my-3 shadow">
+                    <div class="card-body">
+                         <div class="post-form-header">
+                              <h2 class="text-center">Edit Post</h2>
+                         </div>
+                         <form method="POST">
+                              {% csrf_token %}
+                              {{ form|crispy }}
+                              <div class="form row justify-content-end mt-2">
+                                   <div class="form-group col-12">
+                                        <button type="submit" class="form btn-block dustyGreen text-white mt-2">
+                                             Post
+                                        </button>
+                                   </div>
+                              </div>
+                         </form>
+                    </div>
+               </div>
+          </div>
+     </div>
+</div>
+{% endblock %}
