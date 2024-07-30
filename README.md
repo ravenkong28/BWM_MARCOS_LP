@@ -80,3 +80,25 @@ The Gomory Cut / Cutting Plane Method is used to solve large-scale integer progr
 The Gomory constraint is determined by separating the fractional parts of the variables and forming constraints to eliminate non-integer solutions. The process involves iterating until all solutions are integers or determining that no feasible integer solution exists.
 
 This combined explanation integrates the BWM-MARCOS decision-making system with an overview of Integer Linear Programming and the Gomory Cut method, providing a comprehensive overview of both methodologies.
+
+## Disclaimer
+
+**Note:** The equations and formulas provided in this document are formatted using LaTeX. To view these equations correctly, ensure that you are running the server in an environment that supports LaTeX rendering for markdown.
+
+### User Accounts
+
+To access and test the application, use the following credentials:
+
+**Account 1:**
+- **Username:** admin
+- **Password:** admin
+
+**Account 2:**
+- **Username:** test1
+- **Password:** test1234567890
+
+**Account 3:**
+- **Username:** test3
+- **Password:** test1234567890
+
+Make sure to log in using the appropriate account to check the functionality of the application and view the formatted equations.
