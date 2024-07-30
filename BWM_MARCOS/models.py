@@ -30,13 +30,6 @@ class Supplier(models.Model):
      
      def __str__(self):
           return self.nama
-     
-# class NilaiKriteria(models.Model):
-#      nilai = models.IntegerField()
-#      keterangan = models.CharField(max_length=255)
-
-#      def __str__(self):
-#           return f"{self.nilai} - {self.keterangan}"
 
 
      

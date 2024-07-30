@@ -9,9 +9,6 @@ from django.http import HttpResponseBadRequest
 def home(request):
      return render(request, 'home.html', {'active_page': 'home'})
 
-# def about(request):
-#      return render(request, 'about.html', {'active_page': 'about'})
-
 # CRUD KRITERIA
 @login_required(login_url='/login')
 def view_kriteria(request):
@@ -26,7 +23,7 @@ def create_kriteria(request):
           jenis_kriteria = request.POST.get('jenis_kriteria')
 
           if Kriteria.objects.filter(user=request.user, nama_kriteria=nama_kriteria).exists() or \
-             Kriteria.objects.filter(user=request.user, user_specific_kode_kriteria__icontains=f"{request.user.id}-{nama_kriteria}").exists():
+               Kriteria.objects.filter(user=request.user, user_specific_kode_kriteria__icontains=f"{request.user.id}-{nama_kriteria}").exists():
                messages.error(request, 'The criteria with this name already exist.')
           else:
                Kriteria.objects.create(user=request.user, nama_kriteria=nama_kriteria, jenis_kriteria=jenis_kriteria)
@@ -53,7 +50,7 @@ def edit_kriteria(request, pk):
           existing_kriteria = Kriteria.objects.exclude(pk=kriteria.pk)
 
           if existing_kriteria.filter(user=request.user, nama_kriteria=nama_kriteria).exists() or \
-             existing_kriteria.filter(user=request.user, user_specific_kode_kriteria__icontains=f"{request.user.id}-{nama_kriteria}").exists():
+               existing_kriteria.filter(user=request.user, user_specific_kode_kriteria__icontains=f"{request.user.id}-{nama_kriteria}").exists():
                messages.error(request, 'The criteria with this name already exists.')
           if not messages.get_messages(request):
                kriteria.nama_kriteria = nama_kriteria
@@ -132,6 +129,7 @@ def edit_supplier(request, pk):
 
      return render(request, 'inner/supplier/edit.html', {'title':'Edit Supplier Page', 'supplier': supplier})
 
+
 @login_required(login_url='/login')
 def delete_supplier(request, pk):
      if pk is None:
@@ -204,12 +202,25 @@ def input_kriteria(request):
           
           best_kriteria = request.POST.get('best_kriteria')
           worst_kriteria = request.POST.get('worst_kriteria')
+
           
           if best_kriteria == worst_kriteria:
                messages.error(request, 'Best criteria and worst criteria cannot be the same.')
                best_kriteria = False
                worst_kriteria = False
+
+          best_value = False
+          worst_tabel = False
+          alternatife_tabel = False
           
+          # Dummy
+          # if best_kriteria == 'Quality (Beauty)' and worst_kriteria ==  'Amount of Type':
+          #      best_value = [1,2,4,8,6,7]
+          #      worst_value = [8,7,6,1,4,2]
+          #      worst_tabel = zip(selected_kriteria_data, worst_value)
+          #      alternatif_value = [[4,4,3,4,3,5],[2,2,4,4,4,2],[3,2,2,3,4,5],[1,4,2,3,2,2],[5,3,4,2,5,3],[3,5,4,3,4,5]]
+          #      alternatife_tabel = zip(selected_supplier_data, alternatif_value)
+                    
 
           return render(request, 'inner/BWM-MARCOS/Perhitungan/index.html', {
                'title': 'Calculation Page Step 2', 
@@ -217,7 +228,10 @@ def input_kriteria(request):
                'selected_supplier_data': selected_supplier_data,
                'best': best_kriteria,
                'worst': worst_kriteria,
-               })
+               'best_value' : best_value,
+               'worst_tabel' : worst_tabel,
+               'alternatife_tabel' : alternatife_tabel
+          })
      return render(request, 'inner/BWM-MARCOS/Perhitungan/index.html')
 
 

@@ -95,6 +95,7 @@
                </ul>
           </small>
      </div>
+
      <div class="table-responsive">
           <form method="post" action="{% url 'result' %}" style="display: inline">
                {% csrf_token %}
@@ -122,6 +123,16 @@
                               <tbody>
                                    <tr>
                                         <td>{{ best }}</td>
+                                        {% if best_value and worst_tabel and alternatife_tabel %}
+                                        {% for value in best_value %}
+                                        <td>
+                                             <select name="bobot_kriteria_best" class="form-select text-center">
+                                                  <option value="{{ value }}" selected>{{ value }}</option>
+
+                                             </select>
+                                        </td>
+                                        {% endfor %}
+                                        {% else %}
                                         {% for kriteria in selected_kriteria_data %}
                                         <td>
                                              <select name="bobot_kriteria_best" class="form-select text-center">
@@ -141,6 +152,7 @@
                                              </select>
                                         </td>
                                         {% endfor %}
+                                        {% endif %}
                                    </tr>
                               </tbody>
                          </table>
@@ -160,9 +172,23 @@
                                    </tr>
                               </thead>
                               <tbody>
+                                   {% if best_value and worst_tabel and alternatife_tabel %}
+                                   {% for kriteria, values in worst_tabel %}
+                                   <tr>
+                                        <td class="kriteria-name">{{ kriteria.nama_kriteria }}</td>
+
+                                        <td>
+                                             <select name="bobot_kriteria_worst" class="form-select text-center">
+                                                  <option value="{{ values }}" selected>{{ values }}</option>
+                                             </select>
+                                        </td>
+                                   </tr>
+                                   {% endfor %}
+                                   {% else %}
                                    {% for kriteria in selected_kriteria_data %}
                                    <tr>
                                         <td class="kriteria-name">{{ kriteria.nama_kriteria }}</td>
+
                                         <td>
                                              <select name="bobot_kriteria_worst" class="form-select text-center">
                                                   {% if kriteria.nama_kriteria == worst %}
@@ -182,6 +208,7 @@
                                         </td>
                                    </tr>
                                    {% endfor %}
+                                   {% endif %}
                               </tbody>
                          </table>
                     </div>
@@ -228,6 +255,23 @@
                                         {% endfor %}
                                    </tr>
                               </thead>
+
+                              {% if best_value and worst_tabel and alternatife_tabel %}
+                              {% for supplier, values in alternatife_tabel %}
+                              <tbody>
+                                   <tr align="center">
+                                        <td>{{ supplier }}</td>
+                                        {% for value in values %}
+                                        <td>
+                                             <input type="number" class="shadow-lg form-control text-center"
+                                                  name="numVariables" required min="1" max="5" value={{ value }} />
+                                        </td>
+                                        {% endfor %}
+                                   </tr>
+                              </tbody>
+                              {% endfor %}
+
+                              {% else %}
                               {% for supplier in selected_supplier_data %}
                               <tbody>
                                    <tr align="center">
@@ -241,6 +285,7 @@
                                    </tr>
                               </tbody>
                               {% endfor %}
+                              {% endif %}
                          </table>
                     </div>
                </div>
